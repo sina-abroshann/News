@@ -16,8 +16,10 @@ services:
       VIRTUAL_HOST: example.com
       VIRTUAL_PORT: 8000
       LETSENCRYPT_HOST: example.com
+
 volumes:
       news_app:
+      
 networks:
   default:
     external:
