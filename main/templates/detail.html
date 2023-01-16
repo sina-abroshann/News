@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load jalali_tags %}
+<main class="container mt-3 mb-5">
+	<!-- featured news -->
+	<div class="row my-3">
+		<!-- Left -->
+		<div class="col-md-8">
+			<div class="card mb-3">
+              <img src="/media/{{news.image}}" class="card-img-top" alt="{{news.title}}" width="100" height="500">
+			  <div class="card-body">
+			    <h5 class="card-title" style="font-size: 25px"><b>{{news.title}}</b></h5>
+			    <hr/>
+			    <p class="card-text" style="font-size: 18px">{{news.detail}}</p>
+			  </div>
+              <div class="card-footer" style="display: flex; justify-content: space-between">
+                <p> در دسته خبری <a href="/category/{{news.category.id}}">{{news.category.title}}</a></p>
+                <p style="font-size: 15px; color: gray">{{ news.add_time|to_jalali:'%H:%M:%S %Y/%m/%d' }}</p>
+              </div>
+			</div>
+			<!-- Comments -->
+			<div class="card my-4">
+				<h6 class="card-header">دیدگاه</h6>
+				<div class="card-body">
+					{% for message in messages %}
+					<p class="text-success">{{message}}</p>
+					{% endfor %}
+					<form method="post" action="/detail/{{news.id}}">
+						{% csrf_token %}
+						<div class="form-group row">
+							<label class="col-md-2">نام<span class="text-danger">*</span></label>
+							<div class="col-md-10">
+								<input type="text" name="name" required class="form-control" />
+							</div>
+						</div>
+                        <br>
+						<div class="form-group row">
+							<label class="col-md-2">ایمیل<span class="text-danger">*</span></label>
+							<div class="col-md-10">
+								<input type="temailext" name="email" required class="form-control" />
+							</div>
+						</div>
+                        <br>
+						<div class="form-group row">
+							<label class="col-md-2">دیدگاه<span class="text-danger">*</span></label>
+							<div class="col-md-10">
+								<textarea class="form-control" name="message" required></textarea>
+							</div>
+						</div>
+                        <br>
+						<input type="submit" class="btn btn-primary" value="ثبت دیدگاه"/>
+					</form>
+				</div>
+			</div>
+			<!-- Previous Comments -->
+			<div class="card my-4">
+				<h6 class="card-header">دیدگاه ها</h6>
+				<div class="card-body">
+					{% for comment in comments %}
+                        <blockquote class="blockquote text-right">
+                        <br>
+                          <footer class="blockquote-footer float-left">{{comment.name}} | {{ comment.time|to_jalali:'%H:%M:%S %Y/%m/%d' }}
+                          </footer>
+                        <p class="mb-0">{{comment.comment}}</p>
+                        </blockquote>
+                        <hr/>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<!-- Related News -->
+		<div class="col-md-4">
+			<h3 class="mb-3 border-bottom pb-1">در این دسته خبری</h3>
+			<!-- Category Box -->
+			{% for news in related_news %}
+                <div class="card mb-3 shadow">
+                    <img src="/media/{{news.image}}" class="card-img-top" alt="{{news.title}}" width="100" height="200">
+                  <div class="card-body">
+                    <h5 class="card-title">{{news.title}}</h5>
+                    <hr/>
+                      <div style="display: flex; justify-content: space-between">
+                        <p class="card-text"><a href="/detail/{{news.id}}" class="btn btn-sm btn-primary">ادامه مطلب</a></p>
+                        <p style="font-size: 15px; color: gray">{{ news.add_time|to_jalali:'%H:%M:%S %Y/%m/%d' }}</p>
+                      </div>
+                  </div>
+                </div>
+			{% endfor %}
+		</div>
+	</div>
+</main>
+{% endblock %}

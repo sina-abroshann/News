@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+    <style>
+        .glow-on-hover {
+            width: 160px;
+            height: 50px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .glow-on-hover:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left:-2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .glow-on-hover:active {
+            color: #000
+        }
+
+        .glow-on-hover:active:after {
+            background: transparent;
+        }
+
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
+
+        .glow-on-hover:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+        .back-to-top-icon {
+          width: 4rem;
+          height: 4rem;
+          color: black;
+        }
+        .back-to-top {
+          position: fixed;
+          right: 6rem;
+          bottom: 6rem;
+          border-radius: 150%;
+          background: #141c38;
+          padding: 0.5rem;
+          border: none;
+          cursor: pointer;
+        }
+        .back-to-top-icon {
+          width: 4rem;
+          height: 4rem;
+          color: #7ac9f9;
+        }
+        .back-to-top:hover {
+          opacity: 60%;
+        }
+        @media screen and (prefers-reduced-motion: no-preference) {
+          html {
+            scroll-behavior: smooth;
+          }
+        }
+        .back-to-top-link {
+          display: inline-block;
+          text-decoration: none;
+          font-size: 2rem;
+          line-height: 3rem;
+          text-align: center;
+          width: 3rem;
+          height: 3rem;
+          border-radius: 50%;
+          background-color: #d6e3f0;
+          padding: 0.25rem;
+        }
+        $scrollLength: 100vh;
+        .back-to-top-wrapper {
+          position: absolute;
+          top: $scrollLength;
+          right: 0.25rem;
+          bottom: -5em;
+          width: 3em;
+          pointer-events: none;
+        }
+
+        #loading {
+          position: fixed;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+        }
+
+        #loading-image {
+          z-index: 100;
+        }
+    </style>
+    <head>
+        <header id="top">
+            <title>{% block title %}IRBYTE{% endblock %}</title>
+        </header>
+        <meta name=”viewport” content=”width=device-width, initial-scale=1">
+        <!-- Bootstrap 5 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.rtl.min.css" integrity="sha384-+4j30LffJ4tgIMrq9CwHvn0NjEvmuDCOfk6Rpg2xg7zgOxWWtLtozDEEVvBPgHqE" crossorigin="anonymous">
+        <!-- Main Jquery 3 -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha206-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <!-- Bootstrap 5 Js -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!-- Top News bg-danger-->
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #111111">
+            <div class="container">
+              <a class="navbar-brand" href="/">IRBYTE</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" style="display: flex; justify-content: end; text-align: center"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto m-2" style="font-size: 20px;font-weight: bold">
+                  <li class="nav-item active" style="padding-left: 10px; padding-right: 20px">
+                    <a class="nav-link glow-on-hover" href="/">خانه</a>
+                  </li>
+                  <li class="nav-item" style="padding-left: 10px; padding-right: 20px">
+                    <a class="nav-link glow-on-hover" href="{% url 'all-news' %}">جدیدترین</a>
+                  </li>
+                  <li class="nav-item" style="padding-left: 10px; padding-right: 20px">
+                    <a class="nav-link glow-on-hover" href="{% url 'all-category' %}">دسته بندی</a>
+                  </li>
+                  <li class="nav-item" style="padding-left: 10px; padding-right: 20px">
+                      <a class="nav-link glow-on-hover" href="{% url 'other' %}">دیگر خبرگزاری ها</a>
+                  </li>
+                  <li class="nav-item" style="padding-left: 10px; padding-right: 20px">
+                      <a class="nav-link glow-on-hover" href="{% url 'contact' %}">تماس با ما</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+
+        <script>
+          $(window).on('load', function () {
+            $('#loading').hide();
+          })
+        </script>
+
+        <div id="loading">
+          <img id="loading-image" src="https://media2.giphy.com/media/gu9XBXiz60HlO5p9Nz/giphy.gif?cid=ecf05e47ne84zqs72isb03vhbd711h09s1jnvc95dojbbwqt&rid=giphy.gif&ct=g" alt="Loading..." />
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        <script type="text/javascript">
+        myID = document.getElementById("top");
+          $(document).scroll(function() {
+          var y = $(this).scrollTop();
+          if (y > 800) {
+              $('.back-to-top').fadeIn();
+          } else {
+              $('.back-to-top').fadeOut();
+          }
+        });
+
+        window.addEventListener("scroll", myScrollFunc);
+        </script>
+
+        <hr/>
+        <footer class="text-muted">
+          <div class="container back-to-top-wrapper">
+            <p class="float-right">
+                <button id="top" class="back-to-top hidden" style="margin-right: 75rem; display: none" onclick="document.documentElement.scrollIntoView({ behavior: 'smooth' });">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="back-to-top-icon"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 11l5-5m0 0l5 5m-5-5v12"
+                    />
+                  </svg>
+                </button>
+            </p>
+            <p>تمامی حقوق برای وبسایت IRBYTE محفوظ است | IRBYTE توسط سرورهای قدرتمند ابرآروان پشتیبانی می‌شود</p>
+          </div>
+        </footer>
+    </body>
+</html>

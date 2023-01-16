@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: news_app
+    restart: always
+    logging:
+      options:
+        max-size: "5m"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    environment:
+      VIRTUAL_HOST: irbyte.ir
+      VIRTUAL_PORT: 8000
+      LETSENCRYPT_HOST: irbyte.ir
+volumes:
+      news_app:
+networks:
+  default:
+    external:
+      name: nginx-proxy

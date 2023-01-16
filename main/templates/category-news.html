@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load jalali_tags %}
+<main class="container mt-3 mb-5">
+    <h3 class="border-bottom pb-1 my-4">{{category.title}}</h3>
+    <!-- News Box -->
+    {% for news in all_news %}
+        <div class="card mb-4 shadow">
+          <div class="row no-gutters">
+            <div class="col-md-3">
+                <img src="/media/{{news.image}}" class="card-img-top" alt="{{news.title}}" width="100" height="200">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title" style="font-size: 25px"><b>{{news.title}}</b></h5>
+                <p class="card-text">{{news.detail | safe | truncatewords:'50' | linebreaks }}</p>
+                  <div style="display: flex; justify-content: space-between">
+                    <p class="card-text" style="font-size: 30px"><a href="/detail/{{news.id}}" class="btn btn-sm btn-primary" style="font-size: 17px">ادامه مطلب</a></p>
+                    <p style="font-size: 15px; color: gray">{{ news.add_time|to_jalali:'%H:%M:%S %Y/%m/%d' }}</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+</main>
+{% endblock %}
