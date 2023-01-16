@@ -12,9 +12,10 @@ services:
     volumes:
       - .:/code
     environment:
-      VIRTUAL_HOST: irbyte.ir
+    # change example.com with your domain
+      VIRTUAL_HOST: example.com
       VIRTUAL_PORT: 8000
-      LETSENCRYPT_HOST: irbyte.ir
+      LETSENCRYPT_HOST: example.com
 volumes:
       news_app:
 networks:
